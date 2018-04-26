@@ -39,31 +39,32 @@ int main() {
     return(-1);
   }
 
-  /** Inicializacion del semaforo **/
-  semctl(sem, 0, SETVAL, 4);
+  /* inicializacion del semaforo */
+  semctl(sem, 0, SETVAL, 5);
 
-  /** Creacion del segmento de memoria compartida **/
+
+  /* creacion del segmento de memoria compartida */
   if((shmem = shmget(id_shmem, sizeof(shmem_data), IPC_CREAT | 0666)) < 0)
   {
 		perror("\tshmget");
 		exit(EXIT_FAILURE);
   }
 
-  /** Vinculacion al segmento **/
+  /** vinculacion al segmento **/
 	if ((pto_shmem = shmat(shmem, NULL, 0)) == (char *) -1)
 	{
 		perror("\tshmat");
 		exit(EXIT_FAILURE);
 	}
 
-  /** Inicializacion **/
+  /** inicializacion **/
   pto_inf = (shmem_data *) pto_shmem;
   shmem_init(pto_inf);
 
   while(1)
   {
     show_mon(pto_inf);
-    usleep(100000);
+    usleep(200000);
   }
 
   return(0);
